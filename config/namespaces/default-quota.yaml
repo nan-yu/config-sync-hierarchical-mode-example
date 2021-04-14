@@ -1,0 +1,7 @@
+kind: ResourceQuota
+apiVersion: v1
+metadata:
+  name: default-quota
+spec:
+  hard:
+    pods: "10"
