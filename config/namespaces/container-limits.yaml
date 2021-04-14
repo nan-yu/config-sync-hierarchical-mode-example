@@ -2,12 +2,12 @@
 apiVersion: v1
 kind: LimitRange
 metadata:
-  name: container-limits
+  name: limits
 spec:
   limits:
   - max:
       cpu: "300m"
-      mem: 1Gi
+      memory: 1Gi
     type: Container
   - type: PersistentVolumeClaim
     max:
