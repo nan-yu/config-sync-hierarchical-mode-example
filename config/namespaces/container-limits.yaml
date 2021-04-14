@@ -5,10 +5,10 @@ metadata:
   name: container-limits
 spec:
   limits:
-  - default:
-      cpu: "1"
-      memory: 200Mi
-    defaultRequest:
-      cpu: 10m
-      memory: 10Mi
+  - max:
+      cpu: "300m"
+      mem: 1Gi
     type: Container
+  - type: PersistentVolumeClaim
+    max:
+      storage: 2Gi
