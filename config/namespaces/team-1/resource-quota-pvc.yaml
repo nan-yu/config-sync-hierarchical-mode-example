@@ -5,4 +5,4 @@ metadata:
   name: default-quota
 spec:
   hard:
-    pods: "10"
+    persistentvolumeclaims: "3"
