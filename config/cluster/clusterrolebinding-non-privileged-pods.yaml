@@ -1,0 +1,15 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: non-privileged-pods
+roleRef:
+  kind: ClusterRole
+  name: non-privileged-pods
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: sa
+  namespace: team-1
+- kind: ServiceAccount
+  name: sa
+  namespace: team-2
