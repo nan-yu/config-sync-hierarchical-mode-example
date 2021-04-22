@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  annotations:
+    configmanagement.gke.io/cluster-name: defaultcluster
+    configmanagement.gke.io/source-path: namespaces/limit-range.yaml
+  name: limits
+  namespace: team-2
+spec:
+  limits:
+  - max:
+      cpu: 300m
+      memory: 1Gi
+    type: Container
+  - max:
+      storage: 2Gi
+    type: PersistentVolumeClaim

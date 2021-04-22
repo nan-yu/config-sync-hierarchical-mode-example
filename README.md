@@ -1,6 +1,6 @@
-# Config Sync Hierarchical Mode Example - Basic Cluster Configuration
+# Config Sync Hierarchical Root Repository Example - Basic Cluster Configuration
 
-This example shows how a cluster admin can use Config Sync (in hierarchical mode) to manage the configuration of a
+This example shows how a cluster admin can use a Config Sync hierarchical root repository to manage the configuration of a
 Kubernetes cluster shared by two different teams, `team-1` and `team-2`.
 The cluster configuration is under the `config/` directory.
 

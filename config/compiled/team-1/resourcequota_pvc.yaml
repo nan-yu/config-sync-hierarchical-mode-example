@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  annotations:
+    configmanagement.gke.io/cluster-name: defaultcluster
+    configmanagement.gke.io/source-path: namespaces/team-1/resource-quota-pvc.yaml
+  name: pvc
+  namespace: team-1
+spec:
+  hard:
+    persistentvolumeclaims: "3"

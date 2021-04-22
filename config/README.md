@@ -1,17 +1,18 @@
 
-# Config Structure
+# Structure of a hierarchical root repository
 
-The directory demonstrates how to use the Config Sync hierarchical mode to
+The directory demonstrates how to use a Config Sync hierarchical root repository to
 config a Kubernetes cluster shared by two different teams, `team-1` and
 `team-2`. 
 - Each team has its own Kubernetes namespace, Kubernetes service account, resoure
 quotas, network policies, rolebindings.
 - The cluster admin sets up a policy in `namespaces/limit-range.yaml` to constrain resource allocations (to Pods or Containers) in both namespaces.
-- The cluster admin also sets up a PodSecurityPolicy to prevent both teams running
-privileged pods.
+- The cluster admin also sets up ClusterRoles and ClusterRoleBinidngs.
 
+A valid Config Sync hierarchical root repository must include
+three subdirectories: `cluster/`, `namespaces/`, and `system/`.
 
-The `cluster/` directory contains configs that apply to entire clusters (such as PodSecurityPolicy, ClusterRole, ClusterRoleBinding), rather than to namespaces.
+The `cluster/` directory contains configs that apply to entire clusters (such as ClusterRole, ClusterRoleBinding), rather than to namespaces.
 
 The `namespaces/` directory contains configs for the namespace objects and the
 namespace-scoped objects. 
@@ -26,14 +27,38 @@ need to be created in each namespace, can be put directly under `namespaces/`
 
 The `system/` directory contains configs for the Config Sync Operator.
 
+The `compiled/` directory (which is not required for using Config Sync) contains the output of `nomos hydrate`, which compiles
+the configs under the `cluster/`, `namespaces/`, `system/` directories to the exact form that would be sent to the APIServer to apply.
+The cluster-scoped resources are under the `compiled/` directory directly. Each
+subdirectory under the `compiled/` directory includes all the configs for the
+resources under a namespace. 
+
 ```
 .
 ├── cluster
-│   ├── clusterrolebinding-non-privileged-pods.yaml
-│   ├── clusterrole-non-privileged-pods.yaml
+│   ├── clusterrolebinding-namespace-reader.yaml
+│   ├── clusterrole-namespace-reader.yaml
 │   ├── clusterrole-secret-admin.yaml
-│   ├── clusterrole-secret-reader.yaml
-│   └── pod-security-policy-non-privileged-pods.yaml
+│   └── clusterrole-secret-reader.yaml
+├── compiled
+│   ├── clusterrolebinding_namespace-reader.yaml
+│   ├── clusterrole_namespace-reader.yaml
+│   ├── clusterrole_secret-admin.yaml
+│   ├── clusterrole_secret-reader.yaml
+│   ├── namespace_team-1.yaml
+│   ├── namespace_team-2.yaml
+│   ├── team-1
+│   │   ├── limitrange_limits.yaml
+│   │   ├── networkpolicy_default-deny-egress.yaml
+│   │   ├── resourcequota_pvc.yaml
+│   │   ├── rolebinding_secret-reader.yaml
+│   │   └── serviceaccount_sa.yaml
+│   └── team-2
+│       ├── limitrange_limits.yaml
+│       ├── networkpolicy_default-deny-all.yaml
+│       ├── resourcequota_pvc.yaml
+│       ├── rolebinding_secret-admin.yaml
+│       └── serviceaccount_sa.yaml
 ├── namespaces
 │   ├── limit-range.yaml
 │   ├── team-1
