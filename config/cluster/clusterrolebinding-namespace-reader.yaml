@@ -7,9 +7,9 @@ roleRef:
   name: namespace-reader
   apiGroup: rbac.authorization.k8s.io
 subjects:
-- kind: serviceaccount
+- kind: ServiceAccount
   name: sa
   namespace: team-1
-- kind: serviceaccount
+- kind: ServiceAccount
   name: sa
   namespace: team-2
